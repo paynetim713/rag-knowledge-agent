@@ -1,0 +1,28 @@
+# 虚拟环境
+venv/
+.venv/
+env/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.pytest_cache/
+
+# 向量库 (数据, 不应入仓)
+chroma_db/
+
+# 用户文档 (可能含敏感内容)
+docs/*
+!docs/.gitkeep
+!docs/sample.txt
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
