@@ -6,10 +6,9 @@
 
 ## 用到的东西
 
-- LangChain — 编排
-- Ollama — 本地跑 LLM 和嵌入模型
+- LangChain 
+- Ollama — 本地跑 LLM 
 - ChromaDB — 向量库
-- Streamlit — Web UI（可选）
 
 默认模型用的 Qwen3-8B 和 nomic-embed-text，可以在 `config.py` 改。
 
@@ -44,7 +43,7 @@ pip install -r requirements.txt
 python main.py ingest
 ```
 
-第一次会比较慢，要把每个 chunk 都过一遍嵌入模型。建完会持久化到 `chroma_db/`，下次直接用不用重建。
+第一次会比较慢，要把每个 chunk 都过一遍嵌入模型。
 
 问一次：
 
@@ -90,21 +89,7 @@ streamlit run app.py
 
 **Prompt** 写死了一条：找不到答案就说找不到，不要瞎编。配合 `temperature=0.1`，幻觉能压不少。
 
-**多轮对话**没用 LangChain 的 `ConversationBufferMemory`，自己存了个 `[(q, a), ...]` 的列表，每次拼最近 3 轮到 Prompt 前面。简单点。
-
 **来源引用**：PyPDFLoader 加载时会自动给每页加 `page` 元数据，检索回来的 chunk 把 source 和 page 拼进 context，让模型用 `[片段N]` 引用。前端能拿到对应的 source 列表。
-
-## 没做的
-
-- Rerank（检索完先 Top-20 再用 cross-encoder 重排 Top-3）
-- BM25 关键词检索做混合
-- 增量索引（现在加文档要全量重建）
-- 流式输出
-- OCR（扫描件读不了）
-
-## 配置
-
-`config.py` 里能调的：
 
 | 参数 | 默认 | 说明 |
 |---|---|---|
@@ -115,6 +100,3 @@ streamlit run app.py
 | `EMBEDDING_MODEL` | nomic-embed-text | 768 维，中英文都行 |
 | `LLM_MODEL` | qwen3:8b | 也可以换 llama3.1 / mistral 之类 |
 
-## 许可
-
-MIT
